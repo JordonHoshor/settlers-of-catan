@@ -3,7 +3,7 @@ $(document).ready(function() {
   disableCanvas();
 
   var socket = io(); // jshint ignore:line
-  const bool = $('#myData').data('first');
+  var bool = $('#myData').data('first');
 
   //first player can place cities
   // if (bool) {
@@ -21,9 +21,9 @@ $(document).ready(function() {
 
   //*** Buttons ***//
   //ask for a dice roll and then enables the rest of the buttons and the canvas
-  $('#roll-dice-form').on('submit', (e) => {
+  $('#roll-dice-form').on('submit', function(e) {
     e.preventDefault();
-    const socketId = $('#myData').data('id');
+    var socketId = $('#myData').data('id');
     socket.emit('dice-roll', socketId);
     $('#roll-dice').prop('disabled', true);
     enableButtons();
@@ -31,20 +31,19 @@ $(document).ready(function() {
   });
 
   //next turn, disable buttons and canvas
-  $('#next-turn-form').on('submit', (e) => {
+  $('#next-turn-form').on('submit', function(e) {
     e.preventDefault();
-    const socketId = $('#myData').data('id');
+    var socketId = $('#myData').data('id');
     disableButtons();
     disableCanvas();
     socket.emit('next-turn', socketId);
   });
 
-  $('#next-place-form').on('submit', (e) => {
+  $('#next-place-form').on('submit', function(e) {
     e.preventDefault();
-    const socketId = $('#myData').data('id');
+    var socketId = $('#myData').data('id');
     $('#next-place').prop('disabled', 'true');
     disableCanvas();
-    console.log('next phase button fires');
     socket.emit('next-place-phase', socketId);
   });
 
@@ -98,40 +97,38 @@ $(document).ready(function() {
     });
   });
   //enable roll on your turn.
-  socket.on('your-turn', () => {
+  socket.on('your-turn', function() {
     $('#roll-dice').prop('disabled', false);
   });
 
   //adds username of persons turn it is to play
-  socket.on('next-turn', (name) => {
+  socket.on('next-turn', function(name) {
     $('#messages').append($('<li class="room-change">').text(`It is now ${name}'s turn.`));
     scrollChat(); // jshint ignore:line
   });
 
   //display dice roll in chat with the name of the person who requested it
-  socket.on('dice-roll', (diceArray, name) => {
+  socket.on('dice-roll', function(diceArray, name) {
     $('#messages').append($('<li>').text(`${name} just rolled a ${diceArray[0]} and ${diceArray[1]} for a total of ${diceArray[2]}`));
     scrollChat(); // jshint ignore:line
   });
 
   //listens for your place phase and asks server for player information
-  socket.on('your-phase', () => {
-    console.log('place-phase');
-    const pathname = window.location.pathname.split('/');
-    const game_id = pathname[2];
+  socket.on('your-phase', function() {
+    var pathname = window.location.pathname.split('/');
+    var game_id = pathname[2];
     $.ajax({
       url: `/play/${game_id}/player`,
       method: 'GET',
       data: {game_id: game_id}
-    }).done((playerInfo) => {
-      console.log('your place phase fire');
+    }).done(function(playerInfo) {
       enableCanvas();
       $('#next-place').prop('disabled', false);
     });
   });
 
   //adds username of persons turn it is to place
-  socket.on('next-place-phase', (name) => {
+  socket.on('next-place-phase', function(name) {
     $('#messages').append($('<li class="room-change">').text(`It is now ${name}'s turn to place.`));
     scrollChat(); // jshint ignore:line
   });

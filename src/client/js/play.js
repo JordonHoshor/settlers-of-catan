@@ -1,11 +1,11 @@
 (function () {
 
-  const canvas = document.getElementById('hexmap');
-  const ctx = canvas.getContext('2d');
-  const canvas2 = document.getElementById('hexmap2');
-  const ctx2 = canvas2.getContext('2d');
-  const canvas3 = document.getElementById('hexmap3');
-  const ctx3 = canvas3.getContext('2d');
+  var canvas = document.getElementById('hexmap');
+  var ctx = canvas.getContext('2d');
+  var canvas2 = document.getElementById('hexmap2');
+  var ctx2 = canvas2.getContext('2d');
+  var canvas3 = document.getElementById('hexmap3');
+  var ctx3 = canvas3.getContext('2d');
 
   var board = null;
   var robberLocation = null;
@@ -19,9 +19,9 @@
     $.ajax({
       url: `/play/${boardID}/join`,
       data: {id: boardID}
-    }).done((boardInfo) => {
+    }).done(function(boardInfo) {
       board = boardInfo;
-      Object.keys(boardInfo).forEach((tile) => {
+      Object.keys(boardInfo).forEach(function(tile) {
         if (boardInfo[tile].type === 'desert') robberLocation = tile;
         if (tile !== 'id' && tile !== 'allVertices' && tile !== 'allEdges' && tile !== 'allEdgeEndPoints') drawBoard(board[tile]);
       });
@@ -30,24 +30,24 @@
 
   $(document).on('click', '#hexmap3', function(e) {
     // find where the mouse is on click
-    const mouseX = e.offsetX;
-    const mouseY = e.offsetY;
-    const settleCoords = board.allVertices.filter((vertex) => {
-      const x = vertex[0];
-      const y = vertex[1];
+    var mouseX = e.offsetX;
+    var mouseY = e.offsetY;
+    var settleCoords = board.allVertices.filter(function(vertex) {
+      var x = vertex[0];
+      var y = vertex[1];
       return Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY)) < 11;
     });
     var roadIndex = null;
-    board.allEdges.forEach((edge, index) => {
-      const x = edge[0];
-      const y = edge[1];
+    board.allEdges.forEach(function(edge, index) {
+      var x = edge[0];
+      var y = edge[1];
       if (Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY)) < 11) {
         roadIndex = index;
       }
     });
-    const [robberPlace] = Object.keys(board).filter((tile) => {
-      const x = board[tile].x + 50;
-      const y = board[tile].y + 25;
+    var [robberPlace] = Object.keys(board).filter(function(tile) {
+      var x = board[tile].x + 50;
+      var y = board[tile].y + 25;
       var result = false;
       if (tile !== 'id' && tile !== 'allVertices' && tile !== 'allEdges') {
         if (Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY)) < 20) result = [x, y];
@@ -55,8 +55,8 @@
       return result;
     });
 
-    let color = $('.player-info').data('player-color');
-    let avatar = $('.player-info').data('player-avatar');
+    var color = $('.player-info').data('player-color');
+    var avatar = $('.player-info').data('player-avatar');
 
     if (settleCoords.length) {
 
@@ -84,7 +84,7 @@
       //define the polygon
       ctx.beginPath();
       ctx.moveTo(tile.x, tile.y);
-      for (let i = 1; i < tile.vertices.length; i++) {ctx.lineTo(tile.vertices[i][0], tile.vertices[i][1]);}
+      for (var i = 1; i < tile.vertices.length; i++) {ctx.lineTo(tile.vertices[i][0], tile.vertices[i][1]);}
       ctx.lineTo(tile.x, tile.y);
       ctx.closePath();
 

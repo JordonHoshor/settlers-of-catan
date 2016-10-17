@@ -16,10 +16,10 @@
       url: `/profile/${id}/edit`,
       data: values
     })
-    .done((data) => {
+    .done(function(data) {
       window.location.href = document.referrer;
     })
-    .fail((err) => {
+    .fail(function(err) {
     });
   });
 
@@ -33,10 +33,10 @@
         type: 'DELETE',
         url: `/profile/${id}/delete`
       })
-      .done((data) => {
+      .done(function(data) {
         document.location.href = '/';
       })
-      .fail((err) => {
+      .fail(function(err) {
         console.log('err =>', err);
       });
     }

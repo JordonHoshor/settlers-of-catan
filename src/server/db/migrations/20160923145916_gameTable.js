@@ -14,7 +14,6 @@ exports.up = function(knex, Promise) {
     table.integer('monopoly_cards').defaultTo(2);
     table.integer('road_building_cards').defaultTo(2);
     table.integer('year_of_plenty_cards').defaultTo(2);
-
   });
 };
 exports.down = function(knex, Promise) {

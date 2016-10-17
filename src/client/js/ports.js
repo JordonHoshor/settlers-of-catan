@@ -2,8 +2,8 @@
 
   'use strict';
 
-  const canvas = document.getElementById('hexmap');
-  const context = canvas.getContext('2d');
+  var canvas = document.getElementById('hexmap');
+  var context = canvas.getContext('2d');
 
   function upLeft(x, y, color) {
     context.save();
