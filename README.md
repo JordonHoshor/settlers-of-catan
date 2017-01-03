@@ -1,4 +1,4 @@
-# Developers Of Galvanize
+# Settlers Of Catan
 
 ## Live App:
 https://peddlers-of-crudtan.herokuapp.com/
